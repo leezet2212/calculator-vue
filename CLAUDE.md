@@ -21,6 +21,8 @@ python -m uvicorn app.server:app --port 8000 --reload
 
 Người dùng cuối chạy bằng `run.bat` (Windows) / `run.sh` (macOS/Linux) – giữ hai file này đồng bộ khi đổi cách chạy.
 
+**Bản trên web**: `highlight-ai/Dockerfile` (cổng `PORT`, mặc định 7860) chạy trên Hugging Face Spaces. `.github/workflows/deploy-hf.yml` đẩy thư mục `highlight-ai/` sang Space mỗi khi có push lên `master` (cần secret `HF_TOKEN` + variable `HF_SPACE` trên GitHub; header YAML của Space nằm ở `highlight-ai/deploy/hf-header.md`). Biến môi trường khi chạy trên web: `APP_PASSWORD` (HTTP Basic auth, `/healthz` không cần mật khẩu), `JOB_TTL_HOURS` (tự xoá job cũ), `MAX_CONCURRENT_RENDERS` (semaphore giới hạn số video xuất cùng lúc), `DATA_DIR`.
+
 Chưa có bộ test tự động. Kiểm tra khi sửa:
 
 - **Phần ghép video (không cần key, không cần mạng)**: tạo video giả rồi gọi `render.render(...)` với `provider="_test"` (giọng giả bằng sóng sine, chỉ dành cho kiểm thử, không hiện trên giao diện):
